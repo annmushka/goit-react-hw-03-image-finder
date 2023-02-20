@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { createPortal } from 'react-dom';
+import PropTypes from 'prop-types';
 
 export class Modal extends Component {
   onClickEsc = event => {
@@ -23,14 +24,21 @@ export class Modal extends Component {
   }
 
   render() {
-    const { id, largeImage, tag } = this.props;
+    const { id, largeImageURL, tags } = this.props;
     return createPortal(
       <div className="Overlay" onClick={this.onClickBackDrop}>
         <div className="Modal" key={id}>
-          <img src={largeImage} alt={tag} />
+          <img src={largeImageURL} alt={tags} />
         </div>
       </div>,
       document.getElementById('modal')
     );
   }
 }
+Modal.propTypes = {
+  image: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    tags: PropTypes.string.isRequired,
+    largeImageURL: PropTypes.string.isRequired,
+  }).isRequired,
+};

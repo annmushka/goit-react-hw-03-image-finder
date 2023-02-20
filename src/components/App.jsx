@@ -21,9 +21,8 @@ export class App extends Component {
     const { query, per_page, page } = this.state;
     if (query !== prevState.query || page !== prevState.page) {
       this.setState({ status: 'loading' });
-      this.setState({ isLoading: true });
       try {
-        const response = await getImageService(page, per_page, query);
+        const response = await getImageService(query, page, per_page);
         this.setState(prevState => ({
           images: [...prevState.images, ...response.hits],
           total: response.total,
@@ -39,7 +38,7 @@ export class App extends Component {
   }
 
   handleSubmit = query => {
-    this.setState({ query, page: 1 });
+    this.setState({ query, page: 1, images: [] });
   };
 
   handleLoadMore = () => {
@@ -51,8 +50,8 @@ export class App extends Component {
     return (
       <div className="App">
         <SearchBar handleSubmit={this.handleSubmit} />
-        <ImageGallery images={this.state.images} />
         {this.state.isLoading && <Loader />}
+        <ImageGallery images={this.state.images} />
         {this.state.images.length > 0 && !this.isLoading && (
           <Button onClick={this.handleLoadMore} />
         )}

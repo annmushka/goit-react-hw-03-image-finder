@@ -1,6 +1,7 @@
 import '../styles.css';
 import React, { Component } from 'react';
 import { Modal } from 'components/Modal/Modal';
+import PropTypes from 'prop-types';
 
 export class ImageGalleryItem extends Component {
   state = {
@@ -22,7 +23,8 @@ export class ImageGalleryItem extends Component {
         />
         {this.state.isOpenModal && (
           <Modal
-            largeImage={largeImageURL}
+            className="Modal"
+            largeImageURL={largeImageURL}
             closeModal={this.handleToggleModal}
           />
         )}
@@ -30,3 +32,10 @@ export class ImageGalleryItem extends Component {
     );
   }
 }
+ImageGalleryItem.propTypes = {
+  image: PropTypes.shape({
+    webformatURL: PropTypes.string.isRequired,
+    tags: PropTypes.string.isRequired,
+    largeImageURL: PropTypes.string.isRequired,
+  }).isRequired,
+};
